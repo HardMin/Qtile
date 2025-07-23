@@ -18,8 +18,8 @@ def icon(fg="text", bg="dark", fontsize=16, text="?"):
 def powerline(fg="light", bg="dark"):
     return widget.TextBox(
         **base(fg, bg),
-        text="",  # Icon: nf-oct-triangle_left
-        fontsize=66,
+        text="",  # Icon: nf-oct-triangle_left
+        fontsize=98,
         padding=1,
     )
 
@@ -86,6 +86,9 @@ primary_widgets = [
     powerline("color3", "color4"),
     icon(bg="color3", text=" "),  # Icon: nf-fa-feed
     widget.Net(**base(bg="color3"), interface="wlan0"),
+    powerline("color2", "color2"),
+    widget.CurrentLayoutIcon(**base(bg="color2"), scale=0.65),
+    widget.CurrentLayout(**base(bg="color2"), padding=5),
     powerline("color1", "color3"),
     icon(bg="color1", fontsize=17, text="󰃰 "),  # Icon: nf-mdi-calendar_clock
     widget.Clock(**base(bg="color1"), format="%d/%m/%Y - %I:%M %p "),
@@ -97,6 +100,7 @@ primary_widgets = [
 ]
 
 secondary_widgets = [
+    *sensors(),
     *workspaces(),
     separator(),
     # powerline('color1', 'dark'),
@@ -104,7 +108,8 @@ secondary_widgets = [
     # widget.CurrentLayout(**base(bg='color1'), padding=5),
     powerline("color2", "dark"),
     widget.Clock(**base(bg="color2"), format="%d/%m/%Y - %I:%M %p "),
-    powerline("dark", "color2"),
+    widget.CurrentLayoutIcon(**base(bg="color2"), scale=0.65),
+    widget.CurrentLayout(**base(bg="color2"), padding=5),
 ]
 
 widget_defaults = {

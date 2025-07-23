@@ -17,6 +17,8 @@ def autostart():
     subprocess.call([path.join(qtile_path, "autostart.sh")])
 
 
+# autostart()
+
 ScreenWallpaper().wallpaper()
 
 main = None
