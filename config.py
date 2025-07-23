@@ -8,9 +8,16 @@ from settings.screens import screens
 from settings.mouse import mouse
 from settings.path import qtile_path
 from os import path, system
+import subprocess
 from settings.wallpaper import ScreenWallpaper
 
 
+@hook.subscribe.startup_once
+def autostart():
+    subprocess.call([path.join(qtile_path, "autostart.sh")])
+
+
+ScreenWallpaper().wallpaper()
 
 main = None
 dgroups_key_binder = None

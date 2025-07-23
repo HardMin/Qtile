@@ -53,7 +53,7 @@ class ScreenWallpaper:
         os.system(f"feh --bg-fill {wallpaper}")
 
     def wallpaper(self):
-        os.system("feh --bg-fill ~/Image/Wallpapers/6.jpg")
+        os.system("feh --bg-fill ~/Image/Wallpapers/8.png")
 
 
 if __name__ == "__main__":
