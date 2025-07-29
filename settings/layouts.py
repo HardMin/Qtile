@@ -7,13 +7,13 @@ from .theme import colors
 
 layout_conf = {
     "border_focus": colors["focus"][0],
-    "border_width": 1,
-    "margin": 4,
+    "border_width": 2,
+    "margin": 10,
 }
 
 layouts = [
     # layout.Columns(**layout_conf),
-    layout.Max(),
+    layout.Max(**layout_conf),
     layout.MonadTall(**layout_conf),
     # layout.MonadWide(**layout_conf),
     # layout.Bsp(**layout_conf),

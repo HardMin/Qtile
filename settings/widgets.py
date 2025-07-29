@@ -15,11 +15,15 @@ def icon(fg="text", bg="dark", fontsize=16, text="?"):
     return widget.TextBox(**base(fg, bg), fontsize=fontsize, text=text, padding=3)
 
 
-def powerline(fg="light", bg="dark"):
+def powerline(fg="light", bg="dark", dir="right"):
+    text = ""
+    if dir == "left":
+        text = ""
+
     return widget.TextBox(
         **base(fg, bg),
-        text="",  # Icon: nf-oct-triangle_left
-        fontsize=98,
+        text=text,  # Icon: nf-oct-triangle_left
+        fontsize=38,
         padding=1,
     )
 
@@ -70,6 +74,7 @@ def workspaces():
 
 primary_widgets = [
     *sensors(),
+    powerline("color3", "dark", "left"),
     *workspaces(),
     # separator(),
     powerline("color4", "dark"),
@@ -83,24 +88,25 @@ primary_widgets = [
         update_interval=1800,
         custom_command="checkupdates",
     ),
-    powerline("color3", "color4"),
-    icon(bg="color3", text=" "),  # Icon: nf-fa-feed
-    widget.Net(**base(bg="color3"), interface="wlan0"),
-    powerline("color2", "color2"),
-    widget.CurrentLayoutIcon(**base(bg="color2"), scale=0.65),
-    widget.CurrentLayout(**base(bg="color2"), padding=5),
-    powerline("color1", "color3"),
+    # powerline("color3", "color4"),
+    # icon(bg="color3", text=" "),  # Icon: nf-fa-feed
+    # widget.Net(**base(bg="color3"), interface="wlan0"),
+    # powerline("color2", "color2"),
+    # widget.CurrentLayout(**base(bg="color2"), padding=5),
+    powerline("color1", "color4"),
     icon(bg="color1", fontsize=17, text="󰃰 "),  # Icon: nf-mdi-calendar_clock
     widget.Clock(**base(bg="color1"), format="%d/%m/%Y - %I:%M %p "),
-    powerline("dark", "color1"),
-    widget.Systray(background=colors["dark"], padding=5),
+    powerline("color2", "color1"),
+    widget.CurrentLayoutIcon(**base(bg="color2"), scale=0.65),
+    widget.Systray(**base(bg="color2"), padding=5),
     widget.QuickExit(
-        default_text=" ", **base(bg="dark"), padding=5
+        default_text=" ", **base(bg="color2"), padding=5
     ),  # Icon: nf-fa-power_off
 ]
 
 secondary_widgets = [
     *sensors(),
+    powerline("color3", "dark", "left"),
     *workspaces(),
     separator(),
     # powerline('color1', 'dark'),
@@ -114,7 +120,7 @@ secondary_widgets = [
 
 widget_defaults = {
     "font": "UbuntuMono Nerd Font Bold",
-    "fontsize": 14,
+    "fontsize": 15,
     "padding": 1,
 }
 extension_defaults = widget_defaults.copy()

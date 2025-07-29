@@ -1,19 +1,22 @@
 from libqtile.config import Key
 from libqtile.lazy import lazy
+import os  # Necesitas importar os para os.path.expanduser
 
 web = "google-chrome-stable"
 terminal = "kitty"
 
 mod = "mod4"
+alt = "mod1"
 
-screenshot_dir = "~/Images/Screenshots/"
+# Es mejor expandir la ruta una sola vez al principio
+screenshot_dir = os.path.expanduser("~/Image/Screenshots")
 
 
 keys = [
     Key(key[0], key[1], *key[2:])
     for key in [
         (
-            [mod, "shift"],
+            [mod],
             "F2",
             lazy.spawn("toggle-keyboard"),
         ),
@@ -76,14 +79,6 @@ keys = [
         ([mod], "r", lazy.spawn("redshift -O 2800")),
         ([mod, "shift"], "r", lazy.spawn("redshift -x")),
         # Screenshot
-        (
-            [mod],
-            "s",
-            lazy.spawn(
-                "scrot 'screenshot_%Y-%m-%d-%T_$wx$h.png' -e 'mkdir -p ~/images/screenshots/ | mv $f ~/images/screenshots/'"
-            ),
-        ),
-        ([mod, "shift"], "s", lazy.spawn("scrot -s")),
         ([mod], "c", lazy.spawn("code")),
         # ------------ Hardware Configs ------------
         # Volume
@@ -94,35 +89,61 @@ keys = [
         ([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +10%")),
         ([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-")),
         # ------------ Screenshot Configs ------------
-        ([mod], "F2", lazy.spawn(f"flameshot full -p {screenshot_dir} -r")),
-        # Captura de pantalla completa y copiar al portapapeles
-        ([mod, "shift"], "F2", lazy.spawn("flameshot full -c")),
-        # Captura de región y guardar en archivo (interactivo)
-        ([], "F2", lazy.spawn(f"flameshot gui -p {screenshot_dir}")),
-        # Captura de región y copiar al portapapeles (interactivo)
-        # (
-        #     [mod, "shift", "control"],
-        #     "F2",  # Puedes elegir otro atajo si "s" está en uso
-        #     lazy.spawn("flameshot gui -c"),
-        # ),
-        # Captura de ventana y guardar en archivo (interactivo, selecciona ventana)
+        # Guarda en ~/Images/Screenshots y copia al portapapeles
+        (
+            [mod],
+            "s",
+            # Usamos una f-string externa con comillas triples para la cadena del shell.
+            # Esto permite usar comillas dobles dentro de la cadena del shell sin problemas.
+            lazy.spawn(
+                f'bash -c "maim {screenshot_dir}/$(date +%Y-%m-%d-%H%M%S).png && cat {screenshot_dir}/$(date +%Y-%m-%d-%H%M%S).png | xclip -selection clipboard -t image/png"'
+            ),
+            "Full screenshot, save and copy",
+        ),
+        # Solo copia al portapapeles
+        (
+            [mod, "shift"],
+            "s",  # Shift + s
+            lazy.spawn("maim | xclip -selection clipboard -t image/png"),
+            "Full screenshot, copy to clipboard",
+        ),
+        # --- Captura de Región Seleccionada (Interactiva con slop) ---
+        # Guarda en ~/Images/Screenshots y copia al portapapeles
         (
             [mod, "control"],
-            "F2",
-            lazy.spawn(f"flameshot gui -p {screenshot_dir} --active"),
-        ),  # --active intenta capturar la ventana activa directamente
-        # Captura de ventana y copiar al portapapeles (interactivo, selecciona ventana)
+            "s",  # Control + s
+            # Corregido para guardar Y copiar
+            lazy.spawn(
+                f'bash -c "maim -s {screenshot_dir}/$(date +%Y-%m-%d-%H%M%S).png && cat {screenshot_dir}/$(date +%Y-%m-%d-%H%M%S).png | xclip -selection clipboard -t image/png"'
+            ),
+            "Region screenshot, save and copy",
+        ),
+        # Solo copia al portapapeles
+        (
+            [mod, alt],  # Usando la variable 'alt' que definiste como 'mod1'
+            "s",  # Alt + s
+            lazy.spawn("maim -s | xclip -selection clipboard -t image/png"),
+            "Region screenshot, copy to clipboard only",
+        ),
+        # --- Captura de Ventana Activa ---
+        # Guarda en ~/Images/Screenshots y copia al portapapeles
         (
             [mod, "shift", "control"],
-            "F2",
-            lazy.spawn("flameshot gui -c --active"),
-        ),  # --active intenta copiar la ventana activa directamente
-        # Si quieres una forma más directa de seleccionar una ventana con el mouse (como `flameshot gui`)
-        # Pero solo para la ventana
-        # (
-        #     [mod],
-        #     "w",  # Otro atajo si "w" está en uso
-        #     lazy.spawn(f"flameshot gui -p {screenshot_dir}"),
-        # ),  # flameshot gui te permite seleccionar una ventana o región
+            "s",  # Shift + Control + s
+            # Corregido para guardar Y copiar
+            lazy.spawn(
+                f'bash -c "maim -i $(xdotool getactivewindow) {screenshot_dir}/$(date +%Y-%m-%d-%H%M%S).png && cat {screenshot_dir}/$(date +%Y-%m-%d-%H%M%S).png | xclip -selection clipboard -t image/png"'
+            ),
+            "Active window screenshot, save and copy",
+        ),
+        # Solo copia al portapapeles
+        (
+            [mod, alt, "shift"],  # Usando 'alt' y 'shift'
+            "s",  # Alt + Shift + s
+            lazy.spawn(
+                "maim -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png"
+            ),
+            "Active window screenshot, copy to clipboard only",
+        ),
     ]
 ]

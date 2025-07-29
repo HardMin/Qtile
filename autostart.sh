@@ -4,7 +4,10 @@
 
 # systray battery icon
 cbatticon -u 5 &
-# systray volume
+# # systray volume
 volumeicon &
+nm-applet &
+
+nitrogen --restore
 
 picom &
