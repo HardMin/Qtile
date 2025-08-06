@@ -97,7 +97,7 @@ primary_widgets = [
     icon(bg="color1", fontsize=17, text="󰃰 "),  # Icon: nf-mdi-calendar_clock
     widget.Clock(**base(bg="color1"), format="%d/%m/%Y - %I:%M %p "),
     powerline("color2", "color1"),
-    widget.CurrentLayoutIcon(**base(bg="color2"), scale=0.65),
+    # widget.CurrentLayoutIcon(**base(bg="color2"), scale=0.65),
     widget.Systray(**base(bg="color2"), padding=5),
     widget.QuickExit(
         default_text=" ", **base(bg="color2"), padding=5
@@ -114,8 +114,8 @@ secondary_widgets = [
     # widget.CurrentLayout(**base(bg='color1'), padding=5),
     powerline("color2", "dark"),
     widget.Clock(**base(bg="color2"), format="%d/%m/%Y - %I:%M %p "),
-    widget.CurrentLayoutIcon(**base(bg="color2"), scale=0.65),
-    widget.CurrentLayout(**base(bg="color2"), padding=5),
+    # widget.CurrentLayoutIcon(**base(bg="color2"), scale=0.65),
+    # widget.CurrentLayout(**base(bg="color2"), padding=5),
 ]
 
 widget_defaults = {
