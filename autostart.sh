@@ -11,3 +11,5 @@ nm-applet &
 nitrogen --restore
 
 picom &
+
+flameshot &

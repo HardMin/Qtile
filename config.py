@@ -18,7 +18,11 @@ def autostart():
     subprocess.call([path.join(qtile_path, "autostart.sh")])
 
 
-# autostart()
+def manualStart():
+    subprocess.call([path.join(qtile_path, "autostart.sh")])
+
+
+# manualStart()
 
 main = None
 dgroups_key_binder = None
